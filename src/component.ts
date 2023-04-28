@@ -34,7 +34,6 @@ function ComponentOption(cons: Cons, extend?: any) {
     optionMethodsAndHooks(cons, optionBuilder)//after Ref Computed
     optionAccessor(cons, optionBuilder)
 
-
     const setupFunction: OptionSetupFunction | undefined = optionBuilder.setup ? function (props, ctx) {
         return optionBuilder.setup!(props, ctx)
     } : undefined
@@ -88,10 +87,12 @@ function buildComponent(cons: Cons, arg: ComponentOption, extend?: any): any {
     }
     option.emits = emits
 
-
     CustomRecords.forEach(rec => {
         rec.creator.apply({}, [option, rec.key])
     })
+    // clear records for next component
+    CustomRecords.splice(0,CustomRecords.length)
+
 
     if (arg.setup) {
         if (!option.setup) {
