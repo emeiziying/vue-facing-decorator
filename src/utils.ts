@@ -7,6 +7,7 @@ import type { HookConfig } from "./option/methodsAndHooks";
 import type { VModelConfig } from "./option/vmodel";
 import type { WatchConfig } from "./option/watch";
 import type { SetupConfig } from './option/setup'
+import type { Record as CustomDecoratorRecord } from './custom/custom'
 const SlotSymbol = Symbol('vue-facing-decorator-slot')
 
 export type SlotMapTypes = {
@@ -21,6 +22,7 @@ export type SlotMapTypes = {
     watch: Map<string, WatchConfig | WatchConfig[]>
     ref: Map<string, boolean>
     setup: Map<string, SetupConfig>
+    customDecorator: Map<string, CustomDecoratorRecord>
 }
 
 class Slot {
@@ -147,8 +149,7 @@ export function excludeNames(names: string[], slot: Slot) {
         let currSlot: Slot | null = slot
         while (currSlot != null) {
             for (const mapName of currSlot.names.keys()) {
-
-                if (['watch', 'hooks', 'setup','emits'].includes(mapName)) {
+                if (['watch', 'hooks', 'setup', 'emits'].includes(mapName)) {
                     continue
                 }
                 const map = currSlot.names.get(mapName)!

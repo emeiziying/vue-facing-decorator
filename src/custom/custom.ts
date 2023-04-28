@@ -1,15 +1,19 @@
+import { obtainSlot } from '../utils'
+
 type Creator = { (options: any, key: string): void }
-interface Record {
+
+export interface Record {
     key: string
     creator: Creator
 }
 
-// const CustomDecorators: CustomDecorator[] = []
 export const CustomRecords: Record[] = []
 
 export function createDecorator(creator: Creator) {
     return function (proto: any, key: string) {
-        CustomRecords.push({
+        const slot = obtainSlot(proto)
+        const map = slot.obtainMap('customDecorator')
+        map.set(key, {
             key,
             creator
         })
