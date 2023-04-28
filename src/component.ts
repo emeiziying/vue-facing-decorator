@@ -37,12 +37,11 @@ function ComponentOption(cons: Cons, extend?: any) {
     const setupFunction: OptionSetupFunction | undefined = optionBuilder.setup ? function (props, ctx) {
         return optionBuilder.setup!(props, ctx)
     } : undefined
-    const decoratorKeyMap = new Map(CustomRecords.map(e=>[e.key,1]))
     const raw = {
         setup: setupFunction,
         data() {
             delete optionBuilder.data
-            optionData(cons, optionBuilder, this, [], decoratorKeyMap)
+            optionData(cons, optionBuilder, this, [])
             return optionBuilder.data ?? {}
         },
         methods: optionBuilder.methods,
@@ -88,11 +87,9 @@ function buildComponent(cons: Cons, arg: ComponentOption, extend?: any): any {
     }
     option.emits = emits
 
-    CustomRecords.forEach(rec => {
-        rec.creator.apply({}, [option, rec.key])
+    slot.obtainMap('customDecorator').forEach((v) => {
+        v.creator.apply({}, [option, v.key])
     })
-    // clear records for next component
-    CustomRecords.splice(0, CustomRecords.length)
 
     if (arg.setup) {
         if (!option.setup) {
