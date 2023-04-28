@@ -152,6 +152,16 @@ export function excludeNames(names: string[], slot: Slot) {
                 if (['watch', 'hooks', 'setup', 'emits'].includes(mapName)) {
                     continue
                 }
+                if (mapName === 'customDecorator') {
+                    const map = currSlot.obtainMap('customDecorator')
+                    if (map.has(name)) {
+                        if (!map.get(name)!.preserve) {
+                            return false
+                        }else{
+                            continue
+                        }
+                    }
+                }
                 const map = currSlot.names.get(mapName)!
                 if (map.has(name)) {
                     return false

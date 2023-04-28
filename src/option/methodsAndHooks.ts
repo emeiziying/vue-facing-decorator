@@ -39,8 +39,10 @@ export function build(cons: Cons, optionBuilder: OptionBuilder) {
     optionBuilder.methods ??= {}
     const HookFunctions: Record<string, Function> = {}
     const MethodFunctions: Record<string, Function> = {}
+
     protoArr.forEach(proto => {
-        excludeNames(getValidNames(proto, (des, name) => {
+        
+        let names = getValidNames(proto, (des, name) => {
 
             if (name === 'constructor') {
                 return false
@@ -50,7 +52,10 @@ export function build(cons: Cons, optionBuilder: OptionBuilder) {
                 return true
             }
             return false
-        }), slot).forEach(name => {
+        })
+        names = excludeNames(names, slot);
+        names.forEach(name => {
+
             if (HookNames.includes(name as any) || map.has(name)) {
 
                 HookFunctions[name] = proto[name]
