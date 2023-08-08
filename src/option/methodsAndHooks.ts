@@ -19,7 +19,18 @@ export const HookNames = [
     "renderTriggered",
     "errorCaptured",
     "serverPrefetch",
-    "render"
+    "render",
+    "onLoad",
+    "onShow",
+    "onReady",
+    "onHide",
+    "onUnload",
+    "onPullDownRefresh",
+    "onReachBottom",
+    "onShareAppMessage",
+    "onShareTimeline",
+    "onPageScroll",
+    "onAddToFavorites",
 ] as const
 
 export type HookConfig = null
