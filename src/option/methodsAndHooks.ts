@@ -35,6 +35,8 @@ export const HookNames = [
     "onShareTimeline",
     "onPageScroll",
     "onAddToFavorites",
+    "getThemeConfig",
+    "getPhoneNumber",
 ] as const
 
 export type HookConfig = null
